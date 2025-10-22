@@ -18,10 +18,11 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "message is required" });
     }
 
+    // ✅ chuyển role 'assistant' → 'model'
     const contents = [
       { role: "user", parts: [{ text: SYSTEM_PROMPT }] },
       ...history.map((h) => ({
-        role: h.role,
+        role: h.role === "assistant" ? "model" : "user",
         parts: [{ text: h.content }],
       })),
       { role: "user", parts: [{ text: message }] },
